@@ -1,4 +1,4 @@
-package main
+package broadcast
 
 type Broadcaster interface {
 	// Register a new channel to receive broadcasts
