@@ -1,7 +1,7 @@
 package service
 
 import (
-	"https://github.com/riri95500/go-chat/broadcast"
+	"github.com/riri95500/go-chat/broadcast"
 )
 
 type Manager interface {

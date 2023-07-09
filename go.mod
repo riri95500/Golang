@@ -1,4 +1,4 @@
-module go-chat
+module github.com/riri95500/go-chat
 
 go 1.19
 
