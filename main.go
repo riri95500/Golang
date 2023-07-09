@@ -7,8 +7,8 @@ import (
 	"github.com/riri95500/go-chat/model"
 	"github.com/riri95500/go-chat/service"
 
-	"github.com/riri95500/gorm-user-auth/config"
-	"github.com/riri95500/gorm-user-auth/service"
+	"github.com/riri95500/go-chat/config"
+	"github.com/riri95500/go-chat/service"
 )
 
 var roomManager service.Manager
