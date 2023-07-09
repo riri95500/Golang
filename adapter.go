@@ -5,11 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/riri95500/go-chat/service"
+	"github.com/riri95500/go-chat/users"
 )
 
 type RestAdapter struct {
 	roomManager    service.Manager
-	userRepository service.UserRepository
+	userRepository users.UserRepository
 }
 
 func NewRestAdapter(roomManager service.Manager, userRepository service.UserRepository) *RestAdapter {
@@ -87,7 +88,7 @@ func (a *RestAdapter) AddUser(c *gin.Context) {
 	}
 
 	userID := generateUserID()
-	user := User{
+	user := users.User{
 		ID:       userID,
 		Username: userData.Username,
 	}
