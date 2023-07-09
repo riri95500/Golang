@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/riri95500/go-chat/adapter"
 	"github.com/riri95500/go-chat/service"
+	"github.com/riri95500/go-chat/users"
 )
 
 func main() {
@@ -14,7 +15,7 @@ func main() {
 	roomManager := service.GetRoomManager()
 
 	// Création du gestionnaire d'utilisateurs
-	userRepository := service.NewUserRepository()
+	userRepository := users.NewUserRepository()
 
 	// Création de l'adaptateur REST
 	restAdapter := adapter.NewRestAdapter(roomManager, userRepository)
