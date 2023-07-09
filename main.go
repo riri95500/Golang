@@ -1,49 +1,36 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
+	"log"
 
-	"github.com/gin-gonic/gin"
-	"github.com/riri95500/go-chat/adapter"
+	"github.com/riri95500/go-chat/config"
+	"github.com/riri95500/go-chat/model"
 	"github.com/riri95500/go-chat/service"
-	"github.com/riri95500/go-chat/users"
+
+	"github.com/riri95500/gorm-user-auth/config"
+	"github.com/riri95500/gorm-user-auth/service"
 )
 
+var roomManager service.Manager
+
 func main() {
-	// Création du gestionnaire de salles
-	roomManager := service.GetRoomManager()
-
-	// Création du gestionnaire d'utilisateurs
-	userRepository := users.NewUserRepository()
-
-	// Création de l'adaptateur REST
-	restAdapter := adapter.NewRestAdapter(roomManager, userRepository)
-
-	// Création du routeur Gin
-	router := gin.Default()
-
-	// Configuration du template HTML
-	htmlTemplate, err := template.ParseFiles("template.html")
+	conf := config.InitConfig()
+	db, err := config.InitDB(conf)
 	if err != nil {
-		fmt.Println("Failed to parse HTML template:", err)
-		return
+		log.Fatalln(err)
 	}
 
-	// Utilisation de l'adaptateur HTML
-	adapterHTML := adapter.NewHTMLAdapter(htmlTemplate, roomManager, userRepository)
+	db.AutoMigrate(&model.User{})
 
-	// Routes
-	router.GET("/room/:roomid", adapterHTML.GetRoom)
-	router.POST("/room/:roomid", adapterHTML.PostRoom)
-	router.DELETE("/room/:roomid", adapterHTML.DeleteRoom)
-	router.GET("/stream/:roomid", adapterHTML.Stream)
+	// roomManager = service.GetRoomManager()
+	// adapter := adapter.NewGinHTMLAdapter(roomManager)
+	// router := gin.Default()
+	// router.SetHTMLTemplate(adapter.Template)
 
-	// Routes pour la gestion des utilisateurs
-	router.GET("/users", restAdapter.GetUsers)
-	router.POST("/users", restAdapter.AddUser)
-	router.DELETE("/users/:userid", restAdapter.RemoveUser)
+	// router.GET("/room/:roomid", adapter.GetRoom)
+	// router.POST("/room/:roomid", adapter.PostRoom)
+	// router.DELETE("/room/:roomid", adapter.DeleteRoom)
+	// router.GET("/stream/:roomid", adapter.Stream)
 
-	// Lancement du serveur sur le port 8080
-	router.Run(":8080")
+	// router.Run(fmt.Sprintf(":%v", 8080))
 }
