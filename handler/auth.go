@@ -54,6 +54,11 @@ func (authHandler *AuthHandler) GenerateToken(user *model.User) (string, error) 
 
 }
 
+type LoginDTO struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 /*
 Login handles the login request. It parses the request body into a LoginDTO struct
 and attempts to retrieve a user from the UserService instance with the email provided
@@ -68,7 +73,7 @@ response is returned with the JWT, the refresh token, and the user object.
 @return none
 */
 func (authHandler *AuthHandler) Login(c *gin.Context) {
-	var loginDTO *model.LoginDTO
+	var loginDTO *LoginDTO
 
 	returnError := curryReturnError(c, false)
 
